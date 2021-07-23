@@ -99,4 +99,13 @@ class ArrayTest extends TestCase
             'Benjamin' => ['Benjamin', 'Sisko'],
         ], $result);
     }
+
+    /**
+     * @test
+     */
+    public function arrayMapKey(): void
+    {
+        $result = keyedMap(static fn($k, $v) => $k + $v)([1 => 1, 2=> 2, 3 => 3]);
+        self::assertEquals([0 => 2, 1 => 4, 2 => 6], $result);
+    }
 }

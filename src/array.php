@@ -76,3 +76,11 @@ function indexBy(callable $keyMaker): callable
         return $ret;
     };
 }
+
+/**
+ * @todo It might make more sense to use our map instead of the native one. Not sure.
+ */
+function keyedMap(callable $fn)
+{
+    return static fn(array $a) => array_map($fn, array_keys($a), array_values($a));
+}
