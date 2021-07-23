@@ -103,9 +103,21 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
-    public function arrayMapKey(): void
+    public function keyedMap(): void
     {
         $result = keyedMap(static fn($k, $v) => $k + $v)([1 => 1, 2=> 2, 3 => 3]);
         self::assertEquals([0 => 2, 1 => 4, 2 => 6], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function keyedMapWithKeyCallback(): void
+    {
+        $values = static fn($k, $v) => $k * $v;
+        $keys = static fn($k, $v) => $k + $v;
+
+        $result = keyedMap($values, $keys)([1 => 1, 2=> 2, 3 => 3]);
+        self::assertEquals([2 => 1, 4 => 4, 6 => 9], $result);
     }
 }

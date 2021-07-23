@@ -80,7 +80,14 @@ function indexBy(callable $keyMaker): callable
 /**
  * @todo It might make more sense to use our map instead of the native one. Not sure.
  */
-function keyedMap(callable $fn)
+function keyedMap(callable $values, ?callable $keys = null)
 {
-    return static fn(array $a) => array_map($fn, array_keys($a), array_values($a));
+    $keys ??= function () {
+        static $counter = 0;
+        return $counter++;
+    };
+    return static fn(array $a) => array_combine(
+        array_map($keys, array_keys($a), array_values($a)),
+        array_map($values, array_keys($a), array_values($a))
+    );
 }
