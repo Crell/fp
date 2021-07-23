@@ -70,4 +70,13 @@ class ArrayTest extends TestCase
         self::assertEquals([1, 2, 3], $result);
     }
 
+    /**
+     * @test
+     */
+    public function reduce(): void
+    {
+        $result = reduce(0, fn(int $collect, int $x) => $x + $collect)([1, 2, 3, 4, 5]);
+
+        self::assertEquals(15, $result);
+    }
 }

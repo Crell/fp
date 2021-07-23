@@ -55,3 +55,13 @@ function collect(): callable
     return static fn(iterable $a)
         => is_array($a) ? $a : iterator_to_array($a);
 }
+
+function reduce(mixed $init, callable $c): callable
+{
+    return static function (iterable $it) use ($init, $c) {
+        foreach ($it as $k => $v) {
+            $init = $c($init, $v);
+        }
+        return $init;
+    };
+}

@@ -54,4 +54,19 @@ class CompositionTest extends TestCase
         self::assertEquals(30, $result);
     }
 
+    /**
+     * @test
+     */
+    public function pipe_array(): void
+    {
+        $result = pipe(
+            ['hello', 'wide', 'world', 'out', 'there'],
+            amap(fn(string $s) => \strlen($s)),
+            afilter(fn(int $x): bool => (bool)($x % 2)), // Keep odd numbers
+            reduce(0, fn(int $collect, int $x) => $x + $collect),
+        );
+
+        self::assertEquals(18, $result);
+    }
+
 }
