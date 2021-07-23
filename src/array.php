@@ -65,3 +65,14 @@ function reduce(mixed $init, callable $c): callable
         return $init;
     };
 }
+
+function indexBy(callable $keyMaker): callable
+{
+    return static function (array $arr) use ($keyMaker) {
+        $ret = [];
+        foreach ($arr as $v) {
+            $ret[$keyMaker($v)] = $v;
+        }
+        return $ret;
+    };
+}

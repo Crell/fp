@@ -79,4 +79,24 @@ class ArrayTest extends TestCase
 
         self::assertEquals(15, $result);
     }
+
+    /**
+     * @test
+     */
+    public function indexBy(): void
+    {
+        $in = [
+            ['Jean-Luc', 'Picard'],
+            ['James', 'Kirk'],
+            ['Benjamin', 'Sisko'],
+        ];
+
+        $result = indexBy(fn(array $record) => $record[0])($in);
+
+        self::assertEquals([
+            'Jean-Luc' => ['Jean-Luc', 'Picard'],
+            'James' => ['James', 'Kirk'],
+            'Benjamin' => ['Benjamin', 'Sisko'],
+        ], $result);
+    }
 }
