@@ -1,0 +1,53 @@
+{
+    "name": "crell/fp",
+    "type": "library",
+    "description": "WIP",
+    "keywords": [
+        "Functional",
+        "FP",
+        "Array"
+    ],
+    "homepage": "https://github.com/Crell/fp",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Larry Garfield",
+            "email": "larry@garfieldtech.com",
+            "homepage": "http://www.garfieldtech.com/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "~8.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.93",
+        "phpunit/phpunit": "~9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Crell\\fp\\": "src"
+        },
+        "files": [
+            "src/array.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Crell\\fp\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
