@@ -29,7 +29,8 @@
             "Crell\\fp\\": "src"
         },
         "files": [
-            "src/array.php"
+            "src/array.php",
+            "src/composition.php"
         ]
     },
     "autoload-dev": {
