@@ -6,8 +6,6 @@ namespace Crell\fp;
 
 use PHPUnit\Framework\TestCase;
 
-use function Crell\fp\itmap;
-
 class ArrayTest extends TestCase
 {
     /**
@@ -26,6 +24,24 @@ class ArrayTest extends TestCase
     {
         $result = amap(fn(int $x): int => $x * 2)([5, 6]);
         self::assertEquals([10, 12], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function itfilter(): void
+    {
+        $result = itfilter(fn(int $x): bool => !($x % 2))([5, 6, 7, 8]);
+        self::assertEquals([1 => 6, 3 => 8], iterator_to_array($result));
+    }
+
+    /**
+     * @test
+     */
+    public function afilter(): void
+    {
+        $result = afilter(fn(int $x): bool => !($x % 2))([5, 6, 7, 8]);
+        self::assertEquals([1 => 6, 3 => 8], $result);
     }
 
 

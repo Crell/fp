@@ -23,3 +23,26 @@ function itmap(callable $c): callable
     };
 }
 
+function afilter(callable $c): callable
+{
+    return static function (iterable $it) use ($c) {
+        $result = [];
+        foreach ($it as $k => $v) {
+            if ($c($v, $k)) {
+                $result[$k] = $v;
+            }
+        }
+        return $result;
+    };
+}
+
+function itfilter(callable $c): callable
+{
+    return static function (iterable $it) use ($c) {
+        foreach ($it as $k => $v) {
+            if ($c($v, $k)) {
+                yield $k => $v;
+            }
+        }
+    };
+}
