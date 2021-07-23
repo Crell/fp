@@ -16,6 +16,17 @@ class ArrayTest extends TestCase
     public function itmap(): void
     {
         $result = itmap(fn(int $x): int => $x * 2)([5, 6]);
+        self::assertEquals([10, 12], iterator_to_array($result));
+    }
+
+    /**
+     * @test
+     */
+    public function amap(): void
+    {
+        $result = amap(fn(int $x): int => $x * 2)([5, 6]);
         self::assertEquals([10, 12], $result);
     }
+
+
 }
