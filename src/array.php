@@ -46,3 +46,12 @@ function itfilter(callable $c): callable
         }
     };
 }
+
+/**
+ * @todo for PHP 8.1, this can change to leverage FCC instead of returning a function.
+ */
+function collect(): callable
+{
+    return static fn(iterable $a)
+        => is_array($a) ? $a : iterator_to_array($a);
+}

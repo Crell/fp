@@ -44,5 +44,30 @@ class ArrayTest extends TestCase
         self::assertEquals([1 => 6, 3 => 8], $result);
     }
 
+    /**
+     * @test
+     */
+    public function collect_array(): void
+    {
+        $result = collect()([1, 2, 3]);
+
+        self::assertEquals([1, 2, 3], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function collect_iterator(): void
+    {
+        $it = static function () {
+            yield 1;
+            yield 2;
+            yield 3;
+        };
+
+        $result = collect()($it());
+
+        self::assertEquals([1, 2, 3], $result);
+    }
 
 }
