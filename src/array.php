@@ -23,8 +23,9 @@ function itmap(callable $c): callable
     };
 }
 
-function afilter(callable $c): callable
+function afilter(?callable $c = null): callable
 {
+    $c ??= static fn (mixed $v, mixed $l): bool => (bool)$v;
     return static function (iterable $it) use ($c) {
         $result = [];
         foreach ($it as $k => $v) {
@@ -36,8 +37,9 @@ function afilter(callable $c): callable
     };
 }
 
-function itfilter(callable $c): callable
+function itfilter(?callable $c = null): callable
 {
+    $c ??= static fn (mixed $v, mixed $l): bool => (bool)$v;
     return static function (iterable $it) use ($c) {
         foreach ($it as $k => $v) {
             if ($c($v, $k)) {

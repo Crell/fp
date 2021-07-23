@@ -38,10 +38,28 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
+    public function itfilter_default_callback(): void
+    {
+        $result = itfilter()([5, 0, '', 8]);
+        self::assertEquals([0 => 5, 3 => 8], iterator_to_array($result));
+    }
+
+    /**
+     * @test
+     */
     public function afilter(): void
     {
         $result = afilter(fn(int $x): bool => !($x % 2))([5, 6, 7, 8]);
         self::assertEquals([1 => 6, 3 => 8], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function afilter_default_callback(): void
+    {
+        $result = afilter()([5, 0, '', 8]);
+        self::assertEquals([0 => 5, 3 => 8], $result);
     }
 
     /**
