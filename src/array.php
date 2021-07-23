@@ -6,7 +6,7 @@ namespace Crell\fp;
 
 function amap(callable $c): callable
 {
-    return static function (iterable $it) use ($c) {
+    return static function (iterable $it) use ($c): array {
         $result = [];
         foreach ($it as $k => $v) {
             $result[$k] = $c($v);
@@ -16,7 +16,7 @@ function amap(callable $c): callable
 }
 function itmap(callable $c): callable
 {
-    return static function (iterable $it) use ($c) {
+    return static function (iterable $it) use ($c): iterable {
         foreach ($it as $k => $v) {
             yield $k =>$c($v);
         }
@@ -26,7 +26,7 @@ function itmap(callable $c): callable
 function afilter(?callable $c = null): callable
 {
     $c ??= static fn (mixed $v, mixed $l): bool => (bool)$v;
-    return static function (iterable $it) use ($c) {
+    return static function (iterable $it) use ($c): array {
         $result = [];
         foreach ($it as $k => $v) {
             if ($c($v, $k)) {
@@ -40,7 +40,7 @@ function afilter(?callable $c = null): callable
 function itfilter(?callable $c = null): callable
 {
     $c ??= static fn (mixed $v, mixed $l): bool => (bool)$v;
-    return static function (iterable $it) use ($c) {
+    return static function (iterable $it) use ($c): iterable {
         foreach ($it as $k => $v) {
             if ($c($v, $k)) {
                 yield $k => $v;
@@ -54,13 +54,13 @@ function itfilter(?callable $c = null): callable
  */
 function collect(): callable
 {
-    return static fn(iterable $a)
+    return static fn(iterable $a): array
         => is_array($a) ? $a : iterator_to_array($a);
 }
 
 function reduce(mixed $init, callable $c): callable
 {
-    return static function (iterable $it) use ($init, $c) {
+    return static function (iterable $it) use ($init, $c): mixed {
         foreach ($it as $k => $v) {
             $init = $c($init, $v);
         }
@@ -70,7 +70,7 @@ function reduce(mixed $init, callable $c): callable
 
 function indexBy(callable $keyMaker): callable
 {
-    return static function (array $arr) use ($keyMaker) {
+    return static function (array $arr) use ($keyMaker): array {
         $ret = [];
         foreach ($arr as $v) {
             $ret[$keyMaker($v)] = $v;
@@ -84,11 +84,11 @@ function indexBy(callable $keyMaker): callable
  */
 function keyedMap(callable $values, ?callable $keys = null)
 {
-    $keys ??= function () {
+    $keys ??= function (): int {
         static $counter = 0;
         return $counter++;
     };
-    return static fn(array $a) => array_combine(
+    return static fn(array $a): array => array_combine(
         array_map($keys, array_keys($a), array_values($a)),
         array_map($values, array_keys($a), array_values($a))
     );
