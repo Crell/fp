@@ -13,3 +13,8 @@ function compose(callable|iterable ...$fns): callable
         return $arg;
     };
 }
+
+function pipe(mixed $arg, callable|iterable ...$fns): mixed
+{
+    return compose(...$fns)($arg);
+}
