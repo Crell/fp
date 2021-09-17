@@ -138,4 +138,28 @@ class ArrayTest extends TestCase
         $result = keyedMap($values, $keys)([1 => 1, 2=> 2, 3 => 3]);
         self::assertEquals([2 => 1, 4 => 4, 6 => 9], $result);
     }
+
+    /**
+     * @test
+     */
+    public function first(): void
+    {
+        $list = [1, 2, 3, 4, 5];
+
+        $result = first(fn(int $x): bool => ! ($x % 2))($list);
+
+        self::assertEquals(2, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function firstWithNoMatch(): void
+    {
+        $list = [1, 3, 5, 7, 9];
+
+        $result = first(fn(int $x): bool => ! ($x % 2))($list);
+
+        self::assertNull($result);
+    }
 }

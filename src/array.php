@@ -82,7 +82,7 @@ function indexBy(callable $keyMaker): callable
 /**
  * @todo It might make more sense to use our map instead of the native one. Not sure.
  */
-function keyedMap(callable $values, ?callable $keys = null)
+function keyedMap(callable $values, ?callable $keys = null): callable
 {
     $keys ??= function (): int {
         static $counter = 0;
@@ -92,4 +92,20 @@ function keyedMap(callable $values, ?callable $keys = null)
         array_map($keys, array_keys($a), array_values($a)),
         array_map($values, array_keys($a), array_values($a))
     );
+}
+
+/**
+ * @return mixed
+ *   The first value that matches the provided filter, or null if none was found.
+ */
+function first(callable $filter): callable
+{
+    return static function (iterable $it) use ($filter): mixed {
+        foreach ($it as $k => $v) {
+            if ($filter($v, $k)) {
+                return $v;
+            }
+        }
+        return null;
+    };
 }
