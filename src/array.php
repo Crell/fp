@@ -98,14 +98,38 @@ function keyedMap(callable $values, ?callable $keys = null): callable
  * @return mixed
  *   The first value that matches the provided filter, or null if none was found.
  */
-function first(callable $filter): callable
+function first(callable $c): callable
 {
-    return static function (iterable $it) use ($filter): mixed {
+    return static function (iterable $it) use ($c): mixed {
         foreach ($it as $k => $v) {
-            if ($filter($v, $k)) {
+            if ($c($v, $k)) {
                 return $v;
             }
         }
         return null;
+    };
+}
+
+function any(callable $c): callable
+{
+    return static function (iterable $it) use ($c): bool {
+        foreach ($it as $k => $v) {
+            if ($c($v, $k)) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+function all(callable $c): callable
+{
+    return static function (iterable $it) use ($c): bool {
+        foreach ($it as $k => $v) {
+            if (! $c($v, $k)) {
+                return false;
+            }
+        }
+        return true;
     };
 }

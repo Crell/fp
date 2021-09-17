@@ -162,4 +162,54 @@ class ArrayTest extends TestCase
 
         self::assertNull($result);
     }
+
+    /**
+     * @test
+     */
+    public function anyMatch(): void
+    {
+        $list = [1, 2, 3, 5, 7, 9];
+
+        $result = any(fn(int $x): bool => ! ($x % 2))($list);
+
+        self::assertTrue($result);
+    }
+
+    /**
+     * @test
+     */
+    public function anyNoMatch(): void
+    {
+        $list = [1, 3, 5, 7, 9];
+
+        $result = any(fn(int $x): bool => ! ($x % 2))($list);
+
+        self::assertFalse($result);
+    }
+
+
+    /**
+     * @test
+     */
+    public function allMatch(): void
+    {
+        $list = [2, 4, 6];
+
+        $result = all(fn(int $x): bool => ! ($x % 2))($list);
+
+        self::assertTrue($result);
+    }
+
+    /**
+     * @test
+     */
+    public function allNoMatch(): void
+    {
+        $list = [2, 3, 4];
+
+        $result = all(fn(int $x): bool => ! ($x % 2))($list);
+
+        self::assertFalse($result);
+    }
+
 }
