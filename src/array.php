@@ -110,6 +110,23 @@ function first(callable $c): callable
     };
 }
 
+/**
+ * Invokes the callable on each item in the iterable, and returns the first truthy result.
+ *
+ * @return mixed
+ */
+function firstValue(callable $c): callable
+{
+    return static function (iterable $it) use ($c): mixed {
+        foreach ($it as $k => $v) {
+            if ($res = $c($v, $k)) {
+                return $res;
+            }
+        }
+        return null;
+    };
+}
+
 function any(callable $c): callable
 {
     return static function (iterable $it) use ($c): bool {

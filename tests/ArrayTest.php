@@ -154,6 +154,31 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
+    public function firstValue(): void
+    {
+        $list = [
+            new class {
+                public function foo() { return null; }
+            },
+            new class {
+                public function foo() { return 0; }
+            },
+            new class {
+                public function foo() { return 2; }
+            },
+            new class {
+                public function foo() { return 3; }
+            },
+        ];
+
+        $result = firstValue(static fn(object $object): ?int => $object->foo())($list);
+
+        self::assertEquals(2, $result);
+    }
+
+    /**
+     * @test
+     */
     public function firstWithNoMatch(): void
     {
         $list = [1, 3, 5, 7, 9];
