@@ -14,7 +14,10 @@ function compose(callable|iterable ...$fns): callable
     };
 }
 
-function pipe(mixed $arg, callable|iterable ...$fns): mixed
+function pipe(mixed $arg, callable ...$fns): mixed
 {
-    return compose(...$fns)($arg);
+    foreach ($fns as $fn) {
+        $arg = $fn($arg);
+    }
+    return $arg;
 }

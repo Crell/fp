@@ -44,11 +44,26 @@ class CompositionTest extends TestCase
     {
         $result = pipe(
             'hello',
-            [
+            fn(string $s): int => strlen($s),
+            fn(int $i): int => $i * 2,
+            fn(int $i): int => $i * 3,
+        );
+
+        self::assertEquals(30, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function pipe_splat(): void
+    {
+        $result = pipe(
+            'hello',
+            ...[
                 fn(string $s): int => strlen($s),
                 fn(int $i): int => $i * 2,
-            ],
-            fn(int $i): int => $i * 3,
+                fn(int $i): int => $i * 3,
+            ]
         );
 
         self::assertEquals(30, $result);
