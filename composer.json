@@ -31,7 +31,8 @@
         },
         "files": [
             "src/array.php",
-            "src/composition.php"
+            "src/composition.php",
+            "src/string.php"
         ]
     },
     "autoload-dev": {
