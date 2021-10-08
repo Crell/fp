@@ -237,4 +237,14 @@ class ArrayTest extends TestCase
         self::assertFalse($result);
     }
 
+    /**
+     * @test
+     */
+    public function flatten(): void
+    {
+        $a = [1, 2, [3, 4], [5, [6, 7]]];
+        $result = flatten($a);
+
+        self::assertEquals([1, 2, 3, 4, 5, 6, 7], $result);
+    }
 }

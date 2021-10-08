@@ -150,3 +150,13 @@ function all(callable $c): callable
         return true;
     };
 }
+
+function flatten(array $arr): array
+{
+    $flat = [];
+    array_walk_recursive($arr, static function ($v) use (&$flat) {
+        $flat[] = $v;
+    });
+
+    return $flat;
+}
