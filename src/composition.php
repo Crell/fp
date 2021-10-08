@@ -21,3 +21,9 @@ function pipe(mixed $arg, callable ...$fns): mixed
     }
     return $arg;
 }
+
+function trace(mixed $arg): mixed
+{
+    var_dump($arg);
+    return $arg;
+}
