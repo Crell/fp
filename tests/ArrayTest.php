@@ -20,9 +20,35 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
+    public function itmap_iterator(): void
+    {
+        $gen = function () {
+            yield 5;
+            yield 6;
+        };
+        $result = itmap(fn(int $x): int => $x * 2)($gen());
+        self::assertEquals([10, 12], iterator_to_array($result));
+    }
+
+    /**
+     * @test
+     */
     public function amap(): void
     {
         $result = amap(fn(int $x): int => $x * 2)([5, 6]);
+        self::assertEquals([10, 12], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function amap_iterator(): void
+    {
+        $gen = function () {
+            yield 5;
+            yield 6;
+        };
+        $result = amap(fn(int $x): int => $x * 2)($gen());
         self::assertEquals([10, 12], $result);
     }
 
@@ -50,6 +76,18 @@ class ArrayTest extends TestCase
     public function afilter(): void
     {
         $result = afilter(fn(int $x): bool => !($x % 2))([5, 6, 7, 8]);
+        self::assertEquals([1 => 6, 3 => 8], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function afilter_iterator(): void
+    {
+        $gen = function () {
+            yield from [5, 6, 7, 8];
+        };
+        $result = afilter(fn(int $x): bool => !($x % 2))($gen());
         self::assertEquals([1 => 6, 3 => 8], $result);
     }
 
@@ -94,6 +132,19 @@ class ArrayTest extends TestCase
     public function reduce(): void
     {
         $result = reduce(0, fn(int $collect, int $x) => $x + $collect)([1, 2, 3, 4, 5]);
+
+        self::assertEquals(15, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function reduce_iterable(): void
+    {
+        $gen = function() {
+            yield from [1, 2, 3, 4, 5];
+        };
+        $result = reduce(0, fn(int $collect, int $x) => $x + $collect)($gen());
 
         self::assertEquals(15, $result);
     }

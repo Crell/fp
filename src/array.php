@@ -4,9 +4,17 @@ declare(strict_types=1);
 
 namespace Crell\fp;
 
+use function is_array;
+use function array_map;
+use function array_filter;
+use function array_reduce;
+
 function amap(callable $c): callable
 {
     return static function (iterable $it) use ($c): array {
+        if (is_array($it)) {
+            return array_map($c, $it);
+        }
         $result = [];
         foreach ($it as $k => $v) {
             $result[$k] = $c($v);
@@ -14,6 +22,7 @@ function amap(callable $c): callable
         return $result;
     };
 }
+
 function itmap(callable $c): callable
 {
     return static function (iterable $it) use ($c): iterable {
@@ -25,8 +34,11 @@ function itmap(callable $c): callable
 
 function afilter(?callable $c = null): callable
 {
-    $c ??= static fn (mixed $v, mixed $l): bool => (bool)$v;
+    $c ??= static fn (mixed $v, mixed $k = null): bool => (bool)$v;
     return static function (iterable $it) use ($c): array {
+        if (is_array($it)) {
+            return array_filter($it, $c);
+        }
         $result = [];
         foreach ($it as $k => $v) {
             if ($c($v, $k)) {
@@ -61,6 +73,9 @@ function collect(): callable
 function reduce(mixed $init, callable $c): callable
 {
     return static function (iterable $it) use ($init, $c): mixed {
+        if (is_array($it)) {
+            return array_reduce($it, $c, $init);
+        }
         foreach ($it as $k => $v) {
             $init = $c($init, $v);
         }
