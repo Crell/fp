@@ -27,11 +27,13 @@ class CompositionTest extends TestCase
     public function nested(): void
     {
         $c = compose(
-            [
-                fn(string $s): int => strlen($s),
-                fn(int $i): int => $i * 2,
-            ],
-            fn(int $i): int => $i * 3,
+            ...[
+                ...[
+                    fn(string $s): int => strlen($s),
+                    fn(int $i): int => $i * 2,
+                ],
+                fn(int $i): int => $i * 3,
+            ]
         );
 
         self::assertEquals(30, $c('hello'));
