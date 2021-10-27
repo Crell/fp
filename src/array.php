@@ -13,6 +13,28 @@ function amap(callable $c): callable
 {
     return static function (iterable $it) use ($c): array {
         if (is_array($it)) {
+            return array_map($c, $it);
+        }
+        $result = [];
+        foreach ($it as $k => $v) {
+            $result[$k] = $c($v, $k);
+        }
+        return $result;
+    };
+}
+
+/**
+ * Like amap(), but also pass the key of each entry.
+ *
+ * This has to be a separate opt-in function because internal
+ * PHP functions no longer allow passing extra arguments, while
+ * user-defined functions do.  That means a combined function
+ * would be incompatible with single-argument internal functions.
+ */
+function amapWithKeys(callable $c): callable
+{
+    return static function (iterable $it) use ($c): array {
+        if (is_array($it)) {
             return array_map($c, $it, array_keys($it));
         }
         $result = [];
@@ -24,6 +46,23 @@ function amap(callable $c): callable
 }
 
 function itmap(callable $c): callable
+{
+    return static function (iterable $it) use ($c): iterable {
+        foreach ($it as $k => $v) {
+            yield $k =>$c($v);
+        }
+    };
+}
+
+/**
+ * Like itmap(), but also pass the key of each entry.
+ *
+ * This has to be a separate opt-in function because internal
+ * PHP functions no longer allow passing extra arguments, while
+ * user-defined functions do.  That means a combined function
+ * would be incompatible with single-argument internal functions.
+ */
+function itmapWithKeys(callable $c): callable
 {
     return static function (iterable $it) use ($c): iterable {
         foreach ($it as $k => $v) {

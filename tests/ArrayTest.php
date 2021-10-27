@@ -22,7 +22,7 @@ class ArrayTest extends TestCase
      */
     public function itmap_keys(): void
     {
-        $result = itmap(fn(int $x, int $k): int => $x * 2 + $k)([5, 6]);
+        $result = itmapWithKeys(fn(int $x, int $k): int => $x * 2 + $k)([5, 6]);
         self::assertEquals([10, 13], iterator_to_array($result));
     }
 
@@ -48,7 +48,7 @@ class ArrayTest extends TestCase
             yield 5;
             yield 6;
         };
-        $result = itmap(fn(int $x, int $k): int => $x * 2 + $k)($gen());
+        $result = itmapWithKeys(fn(int $x, int $k): int => $x * 2 + $k)($gen());
         self::assertEquals([10, 13], iterator_to_array($result));
     }
 
@@ -66,7 +66,7 @@ class ArrayTest extends TestCase
      */
     public function amap_keys(): void
     {
-        $result = amap(fn(int $x, int $k): int => $x * 2 + $k)([5, 6]);
+        $result = amapWithKeys(fn(int $x, int $k): int => $x * 2 + $k)([5, 6]);
         self::assertEquals([10, 13], $result);
     }
 
@@ -92,7 +92,7 @@ class ArrayTest extends TestCase
             yield 5;
             yield 6;
         };
-        $result = amap(fn(int $x, int $k): int => $x * 2 + $k)($gen());
+        $result = amapWithKeys(fn(int $x, int $k): int => $x * 2 + $k)($gen());
         self::assertEquals([10, 13], $result);
     }
 
