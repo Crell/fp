@@ -20,6 +20,15 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
+    public function itmap_keys(): void
+    {
+        $result = itmap(fn(int $x, int $k): int => $x * 2 + $k)([5, 6]);
+        self::assertEquals([10, 13], iterator_to_array($result));
+    }
+
+    /**
+     * @test
+     */
     public function itmap_iterator(): void
     {
         $gen = function () {
@@ -28,6 +37,19 @@ class ArrayTest extends TestCase
         };
         $result = itmap(fn(int $x): int => $x * 2)($gen());
         self::assertEquals([10, 12], iterator_to_array($result));
+    }
+
+    /**
+     * @test
+     */
+    public function itmap_iterator_keys(): void
+    {
+        $gen = function () {
+            yield 5;
+            yield 6;
+        };
+        $result = itmap(fn(int $x, int $k): int => $x * 2 + $k)($gen());
+        self::assertEquals([10, 13], iterator_to_array($result));
     }
 
     /**
@@ -42,6 +64,15 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
+    public function amap_keys(): void
+    {
+        $result = amap(fn(int $x, int $k): int => $x * 2 + $k)([5, 6]);
+        self::assertEquals([10, 13], $result);
+    }
+
+    /**
+     * @test
+     */
     public function amap_iterator(): void
     {
         $gen = function () {
@@ -50,6 +81,19 @@ class ArrayTest extends TestCase
         };
         $result = amap(fn(int $x): int => $x * 2)($gen());
         self::assertEquals([10, 12], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function amap_iterator_keys(): void
+    {
+        $gen = function () {
+            yield 5;
+            yield 6;
+        };
+        $result = amap(fn(int $x, int $k): int => $x * 2 + $k)($gen());
+        self::assertEquals([10, 13], $result);
     }
 
     /**
@@ -139,6 +183,16 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
+    public function reduce_keys(): void
+    {
+        $result = reduceWithKeys(0, fn(int $collect, int $x, int $k) => $x + $collect + $k)([1, 2, 3, 4, 5]);
+
+        self::assertEquals(25, $result);
+    }
+
+    /**
+     * @test
+     */
     public function reduce_iterable(): void
     {
         $gen = function() {
@@ -147,6 +201,19 @@ class ArrayTest extends TestCase
         $result = reduce(0, fn(int $collect, int $x) => $x + $collect)($gen());
 
         self::assertEquals(15, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function reduce_iterable_keys(): void
+    {
+        $gen = function() {
+            yield from [1, 2, 3, 4, 5];
+        };
+        $result = reduceWithKeys(0, fn(int $collect, int $x, int $k) => $x + $collect + $k)($gen());
+
+        self::assertEquals(25, $result);
     }
 
     /**

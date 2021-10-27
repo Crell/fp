@@ -13,11 +13,11 @@ function amap(callable $c): callable
 {
     return static function (iterable $it) use ($c): array {
         if (is_array($it)) {
-            return array_map($c, $it);
+            return array_map($c, $it, array_keys($it));
         }
         $result = [];
         foreach ($it as $k => $v) {
-            $result[$k] = $c($v);
+            $result[$k] = $c($v, $k);
         }
         return $result;
     };
@@ -27,7 +27,7 @@ function itmap(callable $c): callable
 {
     return static function (iterable $it) use ($c): iterable {
         foreach ($it as $k => $v) {
-            yield $k =>$c($v);
+            yield $k =>$c($v, $k);
         }
     };
 }
@@ -76,8 +76,27 @@ function reduce(mixed $init, callable $c): callable
         if (is_array($it)) {
             return array_reduce($it, $c, $init);
         }
-        foreach ($it as $k => $v) {
+        foreach ($it as $v) {
             $init = $c($init, $v);
+        }
+        return $init;
+    };
+}
+
+/**
+ * Same as reduce, but the key of each entry is also passed to the callback.
+ *
+ * This is a separate function from reduce() because there's no good way to
+ * emulate this behavior with the built-in array_reduce(), and no good way to
+ * tell if the callback wants a key.  We could use a single function for all of
+ * it, but then we couldn't fall back to array_reduce() in the common case, which
+ * is faster than doing our own iteration.
+ */
+function reduceWithKeys(mixed $init, callable $c): callable
+{
+    return static function (iterable $it) use ($init, $c): mixed {
+        foreach ($it as $k => $v) {
+            $init = $c($init, $v, $k);
         }
         return $init;
     };
