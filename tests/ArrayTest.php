@@ -365,4 +365,26 @@ class ArrayTest extends TestCase
 
         self::assertEquals([1, 2, 3, 4, 5, 6, 7], $result);
     }
+
+    /**
+     * @test
+     */
+    public function append(): void
+    {
+        $a = [1, 2, 3, 4];
+        $result = append(5)($a);
+
+        self::assertEquals([1, 2, 3, 4, 5], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function append_keys(): void
+    {
+        $a = ['a' => 'A', 'b' => 'B'];
+        $result = append('C', 'c')($a);
+
+        self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], $result);
+    }
 }

@@ -233,3 +233,15 @@ function flatten(array $arr): array
 
     return $flat;
 }
+
+function append(mixed $value, mixed $key = null): callable
+{
+    return static function (array $it) use ($value, $key): array {
+        if ($key) {
+            $it[$key] = $value;
+        } else {
+            $it[] = $value;
+        }
+        return $it;
+    };
+}
