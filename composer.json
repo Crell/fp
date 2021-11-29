@@ -1,7 +1,7 @@
 {
     "name": "crell/fp",
     "type": "library",
-    "description": "WIP",
+    "description": "Functional utilities for PHP 8 and later",
     "keywords": [
         "Functional",
         "FP",
