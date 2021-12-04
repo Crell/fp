@@ -17,7 +17,7 @@ function amap(callable $c): callable
         }
         $result = [];
         foreach ($it as $k => $v) {
-            $result[$k] = $c($v, $k);
+            $result[$k] = $c($v);
         }
         return $result;
     };
