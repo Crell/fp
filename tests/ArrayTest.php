@@ -387,4 +387,88 @@ class ArrayTest extends TestCase
 
         self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], $result);
     }
+
+    /**
+     * @test
+     */
+    public function iterate(): void
+    {
+        $a = 0;
+
+        $mapper = static fn (int $x): int => $x + 1;
+
+        // This will produce an infinite list.
+
+        $iterable = iterate($a, $mapper);
+
+        $result = [];
+        for ($i = 0; $i < 10; ++$i) {
+            $result[] = $iterable->current();
+            $iterable->next();
+        }
+
+        self::assertEquals(range(0, 9), $result);
+    }
+
+    /**
+     * @test
+     */
+    public function atake(): void
+    {
+        $a = array_combine(range('a', 'z'), range('A', 'Z'));
+
+        $result = atake(3)($a);
+
+        self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function atake_insufficient(): void
+    {
+        $a = array_combine(range('a', 'b'), range('A', 'B'));
+
+        $result = atake(3)($a);
+
+        self::assertEquals(['a' => 'A', 'b' => 'B'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function ittake(): void
+    {
+        $a = array_combine(range('a', 'z'), range('A', 'Z'));
+
+        $result = ittake(3)($a);
+
+        self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], iterator_to_array($result));
+    }
+
+    /**
+     * @test
+     */
+    public function ittake_insufficient(): void
+    {
+        $a = array_combine(range('a', 'b'), range('A', 'B'));
+
+        $result = ittake(3)($a);
+
+        self::assertEquals(['a' => 'A', 'b' => 'B'], iterator_to_array($result));
+    }
+
+    /**
+     * @test
+     */
+    public function nth(): void
+    {
+        $a = 0;
+
+        $mapper = static fn (int $x): int => $x + 1;
+
+        $result = nth(2, $a, $mapper);
+
+        self::assertEquals(1, $result);
+    }
 }

@@ -123,6 +123,22 @@ function reduce(mixed $init, callable $c): callable
 }
 
 /**
+ * Reduce a list, but stop early if $stop($runningValue) returns true.
+ */
+function reduceUntil(mixed $init, callable $c, callable $stop): callable
+{
+    return static function (iterable $it) use ($init, $c, $stop): mixed {
+        foreach ($it as $v) {
+            $init = $c($init, $v);
+            if ($stop($init)) {
+                return $init;
+            }
+        }
+        return $init;
+    };
+}
+
+/**
  * Same as reduce, but the key of each entry is also passed to the callback.
  *
  * This is a separate function from reduce() because there's no good way to
@@ -244,4 +260,80 @@ function append(mixed $value, mixed $key = null): callable
         }
         return $it;
     };
+}
+
+/**
+ * Produces an infinite list from applying the same operation repeatedly to an input.
+ *
+ * The initial value is yielded first. Each subsequent call will yield applying
+ * the function to the result of the previous iteration.
+ *
+ * Note: This generator produces an infinite list!  Make sure you have some termination
+ * check when calling it to avoid iterating forever.
+ *
+ * @param mixed $init
+ *   The initial value.
+ * @param callable $mapper
+ *   A function that will turn one element in a sequence into the next.
+ * @return \Generator
+ */
+function iterate(mixed $init, callable $mapper): \Generator
+{
+    yield $init;
+    while (true) {
+        yield $init = $mapper($init);
+    }
+}
+
+/**
+ * Returns a limited set of values from an iterable as an array.
+ *
+ * This is roughly equivalent to an SQL LIMIT clause, but for iterables.
+ */
+function atake(int $count): callable
+{
+    return static function (iterable $a) use ($count): array {
+        $ret = [];
+        foreach ($a as $k => $v) {
+            if (--$count < 0) {
+                break;
+            }
+            $ret[$k] = $v;
+        }
+        return $ret;
+    };
+}
+
+/**
+ * Yields a limited set of values from an iterable, lazily.
+ *
+ * This is roughly equivalent to an SQL LIMIT clause, but for iterables.
+ */
+function ittake(int $count): callable
+{
+    return static function (iterable $a) use ($count): iterable {
+        foreach ($a as $k => $v) {
+            if (--$count < 0) {
+                return;
+            }
+            yield $k => $v;
+        }
+    };
+}
+
+/**
+ * Returns the n-nth item from a generated sequence.
+ *
+ * The $init value is considered the first value. That is, passing $count = 1
+ * will return $init unmodified.
+ *
+ * This could also be implemented based on iterate(), or with a reduce().
+ * Inlining the while() loop is most performant, however.
+ */
+function nth(int $count, mixed $init, callable $mapper): mixed
+{
+    while(--$count > 0) {
+        $init = $mapper($init);
+    }
+    return $init;
 }
