@@ -99,6 +99,31 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
+    public function amapPreserveKeys(): void
+    {
+        $a = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
+
+        $result = amap(fn(string $x): string => $x . 'hi')($a);
+
+        self::assertEquals(['a' => 'Ahi', 'b' => 'Bhi', 'c' => 'Chi'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function amapWithKeysPreserveKeys(): void
+    {
+        $a = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
+
+        $result = amapWithKeys(fn(string $v, string $k): string => $v . $k)($a);
+
+        self::assertEquals(['a' => 'Aa', 'b' => 'Bb', 'c' => 'Cc'], $result);
+    }
+
+
+    /**
+     * @test
+     */
     public function itfilter(): void
     {
         $result = itfilter(fn(int $x): bool => !($x % 2))([5, 6, 7, 8]);

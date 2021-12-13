@@ -35,7 +35,9 @@ function amapWithKeys(callable $c): callable
 {
     return static function (iterable $it) use ($c): array {
         if (is_array($it)) {
-            return array_map($c, $it, array_keys($it));
+            // Ensure that the keys are preserved in the result.
+            $keys = array_keys($it);
+            return array_combine($keys, array_map($c, $it, $keys));
         }
         $result = [];
         foreach ($it as $k => $v) {
