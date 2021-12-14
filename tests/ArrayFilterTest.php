@@ -55,4 +55,28 @@ class ArrayFilterTest extends TestCase
         $result = afilter()([5, 0, '', 8]);
         self::assertEquals([0 => 5, 3 => 8], $result);
     }
+
+    /**
+     * @test
+     */
+    public function afilterWithKeys(): void
+    {
+        $a = array_combine(range('a', 'd'), range(1, 4));
+
+        $result = afilterWithKeys(static fn ($v, $k):bool => $v % 2 || $k === 'b')($a);
+
+        self::assertEquals(['a' => 1, 'b' => 2, 'c' => 3], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function itfilterWithKeys(): void
+    {
+        $a = array_combine(range('a', 'd'), range(1, 4));
+
+        $result = itfilterWithKeys(static fn ($v, $k):bool => $v % 2 || $k === 'b')($a);
+
+        self::assertEquals(['a' => 1, 'b' => 2, 'c' => 3], iterator_to_array($result));
+    }
 }

@@ -82,7 +82,7 @@ function afilter(?callable $c = null): callable
         }
         $result = [];
         foreach ($it as $k => $v) {
-            if ($c($v, $k)) {
+            if ($c($v)) {
                 $result[$k] = $v;
             }
         }
@@ -92,7 +92,52 @@ function afilter(?callable $c = null): callable
 
 function itfilter(?callable $c = null): callable
 {
-    $c ??= static fn (mixed $v, mixed $l): bool => (bool)$v;
+    $c ??= static fn (mixed $v): bool => (bool)$v;
+    return static function (iterable $it) use ($c): iterable {
+        foreach ($it as $k => $v) {
+            if ($c($v)) {
+                yield $k => $v;
+            }
+        }
+    };
+}
+
+/**
+ * Like afilter(), but also pass the key of each entry.
+ *
+ * This has to be a separate opt-in function because internal
+ * PHP functions no longer allow passing extra arguments, while
+ * user-defined functions do.  That means a combined function
+ * would be incompatible with single-argument internal functions.
+ */
+function afilterWithKeys(?callable $c = null): callable
+{
+    $c ??= static fn (mixed $v, mixed $k = null): bool => (bool)$v;
+    return static function (iterable $it) use ($c): array {
+        if (is_array($it)) {
+            return array_filter($it, $c, ARRAY_FILTER_USE_BOTH);
+        }
+        $result = [];
+        foreach ($it as $k => $v) {
+            if ($c($v, $k)) {
+                $result[$k] = $v;
+            }
+        }
+        return $result;
+    };
+}
+
+/**
+ * Like itfilter(), but also pass the key of each entry.
+ *
+ * This has to be a separate opt-in function because internal
+ * PHP functions no longer allow passing extra arguments, while
+ * user-defined functions do.  That means a combined function
+ * would be incompatible with single-argument internal functions.
+ */
+function itfilterWithKeys(?callable $c = null): callable
+{
+    $c ??= static fn (mixed $v, mixed $k): bool => (bool)$v;
     return static function (iterable $it) use ($c): iterable {
         foreach ($it as $k => $v) {
             if ($c($v, $k)) {
