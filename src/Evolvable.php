@@ -20,8 +20,12 @@ trait Evolvable
         // We have to go through reflection to get the complete list of properties.
         foreach ($r->getProperties() as $rProp) {
             $field = $rProp->name;
-            $value = array_key_exists($field, $values) ? $values[$field] : $rProp->getValue($this);
-            $clone->$field = $value;
+            if (array_key_exists($field, $values)) {
+                $clone->$field = $values[$field];
+            } elseif ($rProp->isInitialized($this)) {
+                $clone->$field = $rProp->getValue($this);
+            }
+            // If the field is uninitialized, leave it as is.
         }
 
         return $clone;

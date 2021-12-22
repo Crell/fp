@@ -48,6 +48,19 @@ class EvolvableTest extends TestCase
         self::assertEquals(6, $c2->set);
         self::assertEquals(1, $c2->notSet);
     }
+
+    /**
+     * @test
+     */
+    public function undefined_props_evolvable_unchanged(): void
+    {
+        $c = new Uninitialized();
+
+        $c2 = $c->with(set: 6);
+
+        self::assertEquals(6, $c2->set);
+        self::assertNull($c2->notSet ?? null);
+    }
 }
 
 class Constructor
