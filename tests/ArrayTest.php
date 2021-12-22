@@ -335,4 +335,106 @@ class ArrayTest extends TestCase
 
         self::assertEquals(1, $result);
     }
+
+    /**
+     * @test
+     */
+    public function head(): void
+    {
+        $a = [1, 2, 3];
+
+        self::assertEquals(1, head($a));
+    }
+
+    /**
+     * @test
+     */
+    public function head_empty(): void
+    {
+        $a = [];
+
+        self::assertNull(head($a));
+    }
+
+    /**
+     * @test
+     */
+    public function tail(): void
+    {
+        $a = [1, 2, 3];
+
+        self::assertEquals([2, 3], tail($a));
+    }
+
+    /**
+     * @test
+     */
+    public function tail_empty(): void
+    {
+        $a = [];
+
+        self::assertEquals([], tail($a));
+    }
+
+    /**
+     * @test
+     */
+    public function headtail(): void
+    {
+        $a = [1, 2, 3];
+
+        $first = static fn (int $count, int $val) => $count - $val;
+        $rest = static fn (int $count, int $val) => $count + $val;
+
+        $result = headtail(5, $first, $rest)($a);
+
+        self::assertEquals(9, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function headtail_empty(): void
+    {
+        $a = [];
+
+        $first = static fn (int $count, int $val) => $count - $val;
+        $rest = static fn (int $count, int $val) => $count + $val;
+
+        $result = headtail(5, $first, $rest)($a);
+
+        self::assertEquals(5, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function headtail_iterable(): void
+    {
+        $a = (function() {
+            yield from [1, 2, 3];
+        })();
+
+        $first = static fn (int $count, int $val) => $count - $val;
+        $rest = static fn (int $count, int $val) => $count + $val;
+
+        $result = headtail(5, $first, $rest)($a);
+
+        self::assertEquals(9, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function headtail_empty_iterable(): void
+    {
+        $a = new \ArrayIterator([]);
+
+        $first = static fn (int $count, int $val) => $count - $val;
+        $rest = static fn (int $count, int $val) => $count + $val;
+
+        $result = headtail(5, $first, $rest)($a);
+
+        self::assertEquals(5, $result);
+    }
 }

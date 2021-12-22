@@ -384,3 +384,54 @@ function nth(int $count, mixed $init, callable $mapper): mixed
     }
     return $init;
 }
+
+function head(array $a): mixed
+{
+    return $a[0] ?? null;
+}
+
+function tail(array $a): array
+{
+    return array_slice($a, 1);
+}
+
+/**
+ * Reduces a list, using a different reducer for the first element and the rest.
+ *
+ * Primarily useful for fencepost type situations.
+ *
+ * @param mixed $init
+ *   The initial value to reduce.
+ * @param callable $first
+ *   The callable to apply to the first item only.
+ * @param callable $rest
+ *   The callable to apply to all items other than the first.
+ * @return callable
+ */
+function headtail(mixed $init, callable $first, callable $rest): callable
+{
+    return static function (iterable $it) use ($init, $first, $rest) {
+        $head = is_array($it)
+            ? current($it)
+            : $it->current();
+        if (!$head) {
+            return $init;
+        }
+
+        $init = $first($init, $head);
+
+        if (is_array($it)) {
+            return reduce($init, $rest)(tail($it));
+        } else {
+            // Because the iterator has already been started, we cannot use the
+            // foreach() loop in reduce().  Instead we have to do it the manual
+            // way here.  Blech.
+            $it->next();
+            while($it->valid()) {
+                $init = $rest($init, $it->current());
+                $it->next();
+            }
+            return $init;
+        }
+    };
+}
