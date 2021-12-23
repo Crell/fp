@@ -362,12 +362,10 @@ function atake(int $count): callable
 function ittake(int $count): callable
 {
     return static function (iterable $a) use ($count): iterable {
-        foreach ($a as $k => $v) {
-            if (--$count < 0) {
-                return;
-            }
-            yield $k => $v;
-        }
+        // No idea if this is faster than manually foreach()ing, but it's slicker.
+        yield from is_array($a)
+            ? array_slice($a, 0, $count)
+            : new \LimitIterator($a, 0, $count);
     };
 }
 

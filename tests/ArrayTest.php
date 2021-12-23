@@ -292,9 +292,7 @@ class ArrayTest extends TestCase
     public function atake_iterator(): void
     {
         $l = array_combine(range('a', 'z'), range('A', 'Z'));
-        $a = (function($l) {
-            yield from $l;
-        })($l);
+        $a = new \ArrayIterator($l);
 
         $result = atake(3)($a);
 
@@ -319,9 +317,7 @@ class ArrayTest extends TestCase
     public function atake_iterator_insufficient(): void
     {
         $l = array_combine(range('a', 'b'), range('A', 'B'));
-        $a = (function($l) {
-            yield from $l;
-        })($l);
+        $a = new \ArrayIterator($l);
 
         $result = atake(3)($a);
 
@@ -334,6 +330,19 @@ class ArrayTest extends TestCase
     public function ittake(): void
     {
         $a = array_combine(range('a', 'z'), range('A', 'Z'));
+
+        $result = ittake(3)($a);
+
+        self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], iterator_to_array($result));
+    }
+
+    /**
+     * @test
+     */
+    public function ittake_iterator(): void
+    {
+        $l = array_combine(range('a', 'z'), range('A', 'Z'));
+        $a = new \ArrayIterator($l);
 
         $result = ittake(3)($a);
 
