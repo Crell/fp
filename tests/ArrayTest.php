@@ -153,6 +153,8 @@ class ArrayTest extends TestCase
             },
         ];
 
+        // PHPStan is not smart enough to know how to deal with the anon class. This is valid.
+        // @phpstan-ignore-next-line
         $result = firstValue(static fn(object $object): ?int => $object->foo())($list);
 
         self::assertEquals(2, $result);
