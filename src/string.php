@@ -14,6 +14,10 @@ function implode(string $glue): callable
     return static fn (array $a): string => \implode($glue, $a);
 }
 
+/**
+ * @param non-empty-string $delimiter
+ * @return callable
+ */
 function explode(string $delimiter): callable
 {
     return static fn (string $s): array => \explode($delimiter, $s);

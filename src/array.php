@@ -358,7 +358,7 @@ function atake(int $count): callable
  */
 function ittake(int $count): callable
 {
-    return static function (iterable $a) use ($count): iterable {
+    return static function (array|\Iterator $a) use ($count): iterable {
         // No idea if this is faster than manually foreach()ing, but it's slicker.
         yield from is_array($a)
             ? array_slice($a, 0, $count)
@@ -408,11 +408,9 @@ function tail(array $a): array
  */
 function headtail(mixed $init, callable $first, callable $rest): callable
 {
-    return static function (iterable $it) use ($init, $first, $rest): mixed {
-        $head = match (true) {
-            is_array($it) => current($it),
-            $it instanceof \Iterator => $it->current(),
-        };
+    // \IteratorAggregate is impossible in practice, so `iterable` is too wide.
+    return static function (array|\Iterator $it) use ($init, $first, $rest): mixed {
+        $head = is_array($it) ? current($it) : $it->current();
         if (!$head) {
             return $init;
         }
@@ -422,7 +420,6 @@ function headtail(mixed $init, callable $first, callable $rest): callable
         if (is_array($it)) {
             return reduce($init, $rest)(tail($it));
         } else {
-            /** @var \Iterator $it */
             // Because the iterator has already been started, we cannot use the
             // foreach() loop in reduce().  Instead we have to do it the manual
             // way here.  Blech.

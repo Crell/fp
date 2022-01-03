@@ -140,16 +140,16 @@ class ArrayTest extends TestCase
     {
         $list = [
             new class {
-                public function foo() { return null; }
+                public function foo(): mixed { return null; }
             },
             new class {
-                public function foo() { return 0; }
+                public function foo(): int { return 0; }
             },
             new class {
-                public function foo() { return 2; }
+                public function foo(): int { return 2; }
             },
             new class {
-                public function foo() { return 3; }
+                public function foo(): int { return 3; }
             },
         ];
 

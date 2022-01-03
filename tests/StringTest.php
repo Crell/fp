@@ -70,7 +70,7 @@ class StringTest extends TestCase
      * @test
      * @dataProvider explodeProvider
      *
-     * @param string $delimiter
+     * @param non-empty-string $delimiter
      * @param string $in
      * @param array $expected
      */

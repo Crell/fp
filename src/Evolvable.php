@@ -20,6 +20,9 @@ trait Evolvable
         // We have to go through reflection to get the complete list of properties.
         foreach ($r->getProperties() as $rProp) {
             $field = $rProp->name;
+            // PHPStan is just flat out wrong on this line; it assumes
+            // $values is an int-based array when it will be string-based.
+            // @phpstan-ignore-next-line
             if (array_key_exists($field, $values)) {
                 $clone->$field = $values[$field];
             } elseif ($rProp->isInitialized($this)) {
