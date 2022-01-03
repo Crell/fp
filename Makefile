@@ -1,4 +1,4 @@
-compose_command = docker-compose run -u $(id -u ${USER}):$(id -g ${USER}) --rm php81
+compose_command = docker-compose run -u $(id -u ${USER}):$(id -g ${USER}) --rm php80
 
 build:
 	docker-compose build
@@ -15,3 +15,5 @@ composer: build
 test: build
 	$(compose_command) vendor/bin/phpunit
 
+phpstan: build
+	$(compose_command) vendor/bin/phpstan
