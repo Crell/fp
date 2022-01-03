@@ -32,6 +32,7 @@
         "files": [
             "src/array.php",
             "src/composition.php",
+            "src/object.php",
             "src/string.php"
         ]
     },
