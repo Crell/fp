@@ -231,8 +231,7 @@ function keyedMap(callable $values, ?callable $keys = null): callable
 }
 
 /**
- * @return mixed
- *   The first value that matches the provided filter, or null if none was found.
+ * Returns the first value that matches the provided filter, or null if none was found.
  */
 function first(callable $c): callable
 {
@@ -248,8 +247,6 @@ function first(callable $c): callable
 
 /**
  * Invokes the callable on each item in the iterable, and returns the first truthy result.
- *
- * @return mixed
  */
 function firstValue(callable $c): callable
 {
@@ -411,10 +408,11 @@ function tail(array $a): array
  */
 function headtail(mixed $init, callable $first, callable $rest): callable
 {
-    return static function (iterable $it) use ($init, $first, $rest) {
-        $head = is_array($it)
-            ? current($it)
-            : $it->current();
+    return static function (iterable $it) use ($init, $first, $rest): mixed {
+        $head = match (true) {
+            is_array($it) => current($it),
+            $it instanceof \Iterator => $it->current(),
+        };
         if (!$head) {
             return $init;
         }
@@ -424,6 +422,7 @@ function headtail(mixed $init, callable $first, callable $rest): callable
         if (is_array($it)) {
             return reduce($init, $rest)(tail($it));
         } else {
+            /** @var \Iterator $it */
             // Because the iterator has already been started, we cannot use the
             // foreach() loop in reduce().  Instead we have to do it the manual
             // way here.  Blech.
