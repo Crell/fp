@@ -29,3 +29,23 @@ function method(string $method, ...$args): callable
 {
     return static fn (object $o): mixed => $o->$method(...$args);
 }
+
+/**
+ * Returns a callable that determines if a value is of a specified type.
+ *
+ * @param string $type
+ *   The type to check. If the type is an object, it will be an instanceof check.
+ *   Otherwise the appropriate is_*() function will be called.
+ */
+function typeIs(string $type): callable
+{
+    return static fn (mixed $v) => match (true) {
+        $type === 'int' => \is_int($v),
+        $type === 'string' => \is_string($v),
+        $type === 'float' => \is_float($v),
+        $type === 'bool' => \is_bool($v),
+        $type === 'array' => \is_array($v),
+        $type === 'resource' => \is_resource($v),
+        class_exists($type), interface_exists($type) => $v instanceof $type,
+    };
+}

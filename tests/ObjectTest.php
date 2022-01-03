@@ -65,4 +65,38 @@ class ObjectTest extends TestCase
 
         self::assertEquals(1, $result);
     }
+
+    /**
+     * @test
+     * @dataProvider typeIsExamples();
+     *
+     * @param string $type
+     * @param mixed $val
+     * @param bool $match
+     */
+    public function typeIs(string $type, mixed $val, bool $match): void
+    {
+        self::assertEquals($match, typeIs($type)($val));
+    }
+
+    /**
+     * @return iterable<array{string, mixed, bool}>
+     */
+    public function typeIsExamples(): iterable
+    {
+        // Things that are.
+        yield ['int', 1, true];
+        yield ['string', '1', true];
+        yield ['float', 1.0, true];
+        yield ['bool', true, true];
+        yield [\SplStack::class, new \SplStack(), true];
+
+        // Things that are not.
+        yield ['int', '1', false];
+        yield ['string', 1, false];
+        yield ['float', 1, false];
+        yield ['float', [], false];
+        yield ['bool', 1, false];
+        yield [\SplStack::class, new \SplPriorityQueue(), false];
+    }
 }
