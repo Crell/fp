@@ -284,6 +284,10 @@ function all(callable $c): callable
     };
 }
 
+/**
+ * @param array<mixed> $arr
+ * @return array<mixed>
+ */
 function flatten(array $arr): array
 {
     $flat = [];
@@ -319,7 +323,7 @@ function append(mixed $value, mixed $key = null): callable
  *   The initial value.
  * @param callable $mapper
  *   A function that will turn one element in a sequence into the next.
- * @return \Generator
+ * @return \Generator<mixed>
  */
 function iterate(mixed $init, callable $mapper): \Generator
 {
@@ -383,11 +387,18 @@ function nth(int $count, mixed $init, callable $mapper): mixed
     return $init;
 }
 
+/**
+ * @param array<mixed> $a
+ */
 function head(array $a): mixed
 {
     return $a[0] ?? null;
 }
 
+/**
+ * @param array<mixed> $a
+ * @return array<mixed>
+ */
 function tail(array $a): array
 {
     return array_slice($a, 1);

@@ -12,11 +12,15 @@ class StringTest extends TestCase
      * @test
      * @dataProvider replaceProvider
      */
+    // @phpstan-ignore-next-line
     public function replace(string|array $find, string|array $replace, string $in, string $expected): void
     {
         self::assertEquals($expected, replace($find, $replace)($in));
     }
 
+    /**
+     * @return iterable<array>
+     */
     public function replaceProvider(): iterable
     {
         yield [
@@ -47,11 +51,15 @@ class StringTest extends TestCase
      * @param array $in
      * @param string $expected
      */
+    // @phpstan-ignore-next-line
     public function implode(string $glue, array $in, string $expected): void
     {
         self::assertEquals($expected, implode($glue)($in));
     }
 
+    /**
+     * @return iterable<array>
+     */
     public function implodeProvider(): iterable
     {
         yield [
@@ -72,13 +80,16 @@ class StringTest extends TestCase
      *
      * @param non-empty-string $delimiter
      * @param string $in
-     * @param array $expected
+     * @param array<mixed> $expected
      */
     public function explode(string $delimiter, string $in, array $expected): void
     {
         self::assertEquals($expected, explode($delimiter)($in));
     }
 
+    /**
+     * @return iterable<array>
+     */
     public function explodeProvider(): iterable
     {
         yield [

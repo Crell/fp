@@ -10,6 +10,9 @@ namespace Crell\fp;
  */
 trait Evolvable
 {
+    /**
+     * @param mixed ...$values
+     */
     public function with(...$values): static
     {
         $r = new \ReflectionClass(static::class);
@@ -22,6 +25,7 @@ trait Evolvable
             $field = $rProp->name;
             // PHPStan is just flat out wrong on this line; it assumes
             // $values is an int-based array when it will be string-based.
+            // This is probably a bug in PHPStan's variadic handling.
             // @phpstan-ignore-next-line
             if (array_key_exists($field, $values)) {
                 $clone->$field = $values[$field];
