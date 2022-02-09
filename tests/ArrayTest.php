@@ -175,6 +175,58 @@ class ArrayTest extends TestCase
     /**
      * @test
      */
+    public function firstWithKeys(): void
+    {
+        $list = [1, 2, 3, 4, 5];
+
+        $result = firstWithKeys(static fn (int $x, int $k): bool => !($x % 2) && $k % 2)($list);
+
+        self::assertEquals(2, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function firstValueWithKeys(): void
+    {
+        $list = [
+            new class {
+                public function foo(): mixed { return 0; }
+            },
+            new class {
+                public function foo(): int { return -1; }
+            },
+            // This is the one that should be returned.
+            new class {
+                public function foo(): int { return 2; }
+            },
+            new class {
+                public function foo(): int { return 3; }
+            },
+        ];
+
+        // PHPStan is not smart enough to know how to deal with the anon class. This is valid.
+        // @phpstan-ignore-next-line
+        $result = firstValueWithKeys(static fn(object $object, $key): ?int => $key + $object->foo())($list);
+
+        self::assertEquals(4, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function firstWithKeysWithNoMatch(): void
+    {
+        $list = [1, 3, 5, 7, 9];
+
+        $result = firstWithKeys(fn(int $x, int $k): bool => ! ($x % 2))($list);
+
+        self::assertNull($result);
+    }
+
+    /**
+     * @test
+     */
     public function anyMatch(): void
     {
         $list = [1, 2, 3, 5, 7, 9];
