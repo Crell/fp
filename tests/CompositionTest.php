@@ -86,4 +86,22 @@ class CompositionTest extends TestCase
         self::assertEquals(18, $result);
     }
 
+    /**
+     * @test
+     * @dataProvider maybeExamples()
+     */
+    public function maybe(?int $val, ?int $expected): void
+    {
+        $fn = static fn (int $x) => $x + 1;
+
+        $result = maybe($fn)($val);
+
+        self::assertEquals($expected, $result);
+    }
+
+    public function maybeExamples(): iterable
+    {
+        yield [1, 2];
+        yield [null, null];
+    }
 }
