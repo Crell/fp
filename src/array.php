@@ -293,6 +293,18 @@ function firstValueWithKeys(callable $c): callable
 function any(callable $c): callable
 {
     return static function (iterable $it) use ($c): bool {
+        foreach ($it as $v) {
+            if ($c($v)) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+function anyWithKeys(callable $c): callable
+{
+    return static function (iterable $it) use ($c): bool {
         foreach ($it as $k => $v) {
             if ($c($v, $k)) {
                 return true;
@@ -303,6 +315,18 @@ function any(callable $c): callable
 }
 
 function all(callable $c): callable
+{
+    return static function (iterable $it) use ($c): bool {
+        foreach ($it as $v) {
+            if (! $c($v)) {
+                return false;
+            }
+        }
+        return true;
+    };
+}
+
+function allWithKeys(callable $c): callable
 {
     return static function (iterable $it) use ($c): bool {
         foreach ($it as $k => $v) {

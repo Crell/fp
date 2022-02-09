@@ -248,6 +248,29 @@ class ArrayTest extends TestCase
         self::assertFalse($result);
     }
 
+    /**
+     * @test
+     */
+    public function anyWithKeysMatch(): void
+    {
+        $list = [1, 2, 3, 5, 7, 9];
+
+        $result = anyWithKeys(fn(int $x, int $k): bool => ! ($x % 2))($list);
+
+        self::assertTrue($result);
+    }
+
+    /**
+     * @test
+     */
+    public function anyWithKeysNoMatch(): void
+    {
+        $list = [1, 3, 5, 7, 9];
+
+        $result = anyWithKeys(fn(int $x, int $k): bool => ! ($x % 2))($list);
+
+        self::assertFalse($result);
+    }
 
     /**
      * @test
@@ -269,6 +292,30 @@ class ArrayTest extends TestCase
         $list = [2, 3, 4];
 
         $result = all(fn(int $x): bool => ! ($x % 2))($list);
+
+        self::assertFalse($result);
+    }
+
+    /**
+     * @test
+     */
+    public function allWithKeysMatch(): void
+    {
+        $list = [2, 4, 6];
+
+        $result = allWithKeys(fn(int $x, int $k): bool => ! ($x % 2))($list);
+
+        self::assertTrue($result);
+    }
+
+    /**
+     * @test
+     */
+    public function allWithKeysNoMatch(): void
+    {
+        $list = [2, 3, 4];
+
+        $result = allWithKeys(fn(int $x, int $k): bool => ! ($x % 2))($list);
 
         self::assertFalse($result);
     }
