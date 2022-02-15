@@ -29,7 +29,7 @@ function trace(mixed $arg): mixed
 }
 
 /**
- * Turns any function call into a Maybe monad.
+ * Wrap a unary function in null-pass-through logic.
  *
  * Especially useful to wrap calls inside a pipe() chain.
  *
