@@ -484,16 +484,16 @@ function headtail(mixed $init, callable $first, callable $rest): \Closure
 
         if (is_array($it)) {
             return reduce($init, $rest)(tail($it));
-        } else {
-            // Because the iterator has already been started, we cannot use the
-            // foreach() loop in reduce().  Instead we have to do it the manual
-            // way here.  Blech.
-            $it->next();
-            while($it->valid()) {
-                $init = $rest($init, $it->current());
-                $it->next();
-            }
-            return $init;
         }
+
+        // Because the iterator has already been started, we cannot use the
+        // foreach() loop in reduce().  Instead we have to do it the manual
+        // way here.  Blech.
+        $it->next();
+        while($it->valid()) {
+            $init = $rest($init, $it->current());
+            $it->next();
+        }
+        return $init;
     };
 }
