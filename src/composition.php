@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Crell\fp;
 
-function compose(callable ...$fns): callable
+function compose(callable ...$fns): \Closure
 {
     return static function (mixed $arg) use ($fns): mixed  {
         foreach ($fns as $fn) {

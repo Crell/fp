@@ -11,12 +11,12 @@ namespace Crell\fp;
  * @param array<mixed>|string $replace
  * @return callable
  */
-function replace(array|string $find, array|string $replace): callable
+function replace(array|string $find, array|string $replace): \Closure
 {
     return static fn (string $s): string => str_replace($find, $replace, $s);
 }
 
-function implode(string $glue): callable
+function implode(string $glue): \Closure
 {
     return static fn (array $a): string => \implode($glue, $a);
 }
@@ -25,7 +25,7 @@ function implode(string $glue): callable
  * @param non-empty-string $delimiter
  * @return callable
  */
-function explode(string $delimiter): callable
+function explode(string $delimiter): \Closure
 {
     return static fn (string $s): array => \explode($delimiter, $s);
 }

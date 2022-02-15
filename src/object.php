@@ -11,7 +11,7 @@ namespace Crell\fp;
  *
  * Note: This only works for public properties.
  */
-function prop(string $prop): callable
+function prop(string $prop): \Closure
 {
     return static fn (object $o): mixed => $o->$prop;
 }
@@ -25,7 +25,7 @@ function prop(string $prop): callable
  *
  * @param array<int|string, mixed> ...$args
  */
-function method(string $method, ...$args): callable
+function method(string $method, ...$args): \Closure
 {
     return static fn (object $o): mixed => $o->$method(...$args);
 }
@@ -37,7 +37,7 @@ function method(string $method, ...$args): callable
  *   The type to check. If the type is an object, it will be an instanceof check.
  *   Otherwise the appropriate is_*() function will be called.
  */
-function typeIs(string $type): callable
+function typeIs(string $type): \Closure
 {
     return static fn (mixed $v) => match (true) {
         $type === 'int' => \is_int($v),

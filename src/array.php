@@ -9,7 +9,7 @@ use function array_map;
 use function array_filter;
 use function array_reduce;
 
-function amap(callable $c): callable
+function amap(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): array {
         if (is_array($it)) {
@@ -31,7 +31,7 @@ function amap(callable $c): callable
  * user-defined functions do.  That means a combined function
  * would be incompatible with single-argument internal functions.
  */
-function amapWithKeys(callable $c): callable
+function amapWithKeys(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): array {
         if (is_array($it)) {
@@ -47,7 +47,7 @@ function amapWithKeys(callable $c): callable
     };
 }
 
-function itmap(callable $c): callable
+function itmap(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): iterable {
         foreach ($it as $k => $v) {
@@ -64,7 +64,7 @@ function itmap(callable $c): callable
  * user-defined functions do.  That means a combined function
  * would be incompatible with single-argument internal functions.
  */
-function itmapWithKeys(callable $c): callable
+function itmapWithKeys(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): iterable {
         foreach ($it as $k => $v) {
@@ -73,7 +73,7 @@ function itmapWithKeys(callable $c): callable
     };
 }
 
-function afilter(?callable $c = null): callable
+function afilter(?callable $c = null): \Closure
 {
     $c ??= static fn (mixed $v, mixed $k = null): bool => (bool)$v;
     return static function (iterable $it) use ($c): array {
@@ -90,7 +90,7 @@ function afilter(?callable $c = null): callable
     };
 }
 
-function itfilter(?callable $c = null): callable
+function itfilter(?callable $c = null): \Closure
 {
     $c ??= static fn (mixed $v): bool => (bool)$v;
     return static function (iterable $it) use ($c): iterable {
@@ -110,7 +110,7 @@ function itfilter(?callable $c = null): callable
  * user-defined functions do.  That means a combined function
  * would be incompatible with single-argument internal functions.
  */
-function afilterWithKeys(?callable $c = null): callable
+function afilterWithKeys(?callable $c = null): \Closure
 {
     $c ??= static fn (mixed $v, mixed $k = null): bool => (bool)$v;
     return static function (iterable $it) use ($c): array {
@@ -135,7 +135,7 @@ function afilterWithKeys(?callable $c = null): callable
  * user-defined functions do.  That means a combined function
  * would be incompatible with single-argument internal functions.
  */
-function itfilterWithKeys(?callable $c = null): callable
+function itfilterWithKeys(?callable $c = null): \Closure
 {
     $c ??= static fn (mixed $v, mixed $k): bool => (bool)$v;
     return static function (iterable $it) use ($c): iterable {
@@ -150,13 +150,13 @@ function itfilterWithKeys(?callable $c = null): callable
 /**
  * @todo for PHP 8.1, this can change to leverage FCC instead of returning a function.
  */
-function collect(): callable
+function collect(): \Closure
 {
     return static fn(iterable $a): array
         => is_array($a) ? $a : iterator_to_array($a);
 }
 
-function reduce(mixed $init, callable $c): callable
+function reduce(mixed $init, callable $c): \Closure
 {
     return static function (iterable $it) use ($init, $c): mixed {
         if (is_array($it)) {
@@ -172,7 +172,7 @@ function reduce(mixed $init, callable $c): callable
 /**
  * Reduce a list, but stop early if $stop($runningValue) returns true.
  */
-function reduceUntil(mixed $init, callable $c, callable $stop): callable
+function reduceUntil(mixed $init, callable $c, callable $stop): \Closure
 {
     return static function (iterable $it) use ($init, $c, $stop): mixed {
         foreach ($it as $v) {
@@ -194,7 +194,7 @@ function reduceUntil(mixed $init, callable $c, callable $stop): callable
  * it, but then we couldn't fall back to array_reduce() in the common case, which
  * is faster than doing our own iteration.
  */
-function reduceWithKeys(mixed $init, callable $c): callable
+function reduceWithKeys(mixed $init, callable $c): \Closure
 {
     return static function (iterable $it) use ($init, $c): mixed {
         foreach ($it as $k => $v) {
@@ -204,7 +204,7 @@ function reduceWithKeys(mixed $init, callable $c): callable
     };
 }
 
-function indexBy(callable $keyMaker): callable
+function indexBy(callable $keyMaker): \Closure
 {
     return static function (array $arr) use ($keyMaker): array {
         $ret = [];
@@ -218,7 +218,7 @@ function indexBy(callable $keyMaker): callable
 /**
  * @todo It might make more sense to use our map instead of the native one. Not sure.
  */
-function keyedMap(callable $values, ?callable $keys = null): callable
+function keyedMap(callable $values, ?callable $keys = null): \Closure
 {
     $keys ??= function (): int {
         static $counter = 0;
@@ -233,7 +233,7 @@ function keyedMap(callable $values, ?callable $keys = null): callable
 /**
  * Returns the first value that matches the provided filter, or null if none was found.
  */
-function first(callable $c): callable
+function first(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): mixed {
         foreach ($it as $v) {
@@ -248,7 +248,7 @@ function first(callable $c): callable
 /**
  * Returns the first value that matches the provided filter, or null if none was found.
  */
-function firstWithKeys(callable $c): callable
+function firstWithKeys(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): mixed {
         foreach ($it as $k => $v) {
@@ -263,7 +263,7 @@ function firstWithKeys(callable $c): callable
 /**
  * Invokes the callable on each item in the iterable, and returns the first truthy result.
  */
-function firstValue(callable $c): callable
+function firstValue(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): mixed {
         foreach ($it as $v) {
@@ -278,7 +278,7 @@ function firstValue(callable $c): callable
 /**
  * Invokes the callable on each item in the iterable, and returns the first truthy result.
  */
-function firstValueWithKeys(callable $c): callable
+function firstValueWithKeys(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): mixed {
         foreach ($it as $k => $v) {
@@ -290,7 +290,7 @@ function firstValueWithKeys(callable $c): callable
     };
 }
 
-function any(callable $c): callable
+function any(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): bool {
         foreach ($it as $v) {
@@ -302,7 +302,7 @@ function any(callable $c): callable
     };
 }
 
-function anyWithKeys(callable $c): callable
+function anyWithKeys(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): bool {
         foreach ($it as $k => $v) {
@@ -314,7 +314,7 @@ function anyWithKeys(callable $c): callable
     };
 }
 
-function all(callable $c): callable
+function all(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): bool {
         foreach ($it as $v) {
@@ -326,7 +326,7 @@ function all(callable $c): callable
     };
 }
 
-function allWithKeys(callable $c): callable
+function allWithKeys(callable $c): \Closure
 {
     return static function (iterable $it) use ($c): bool {
         foreach ($it as $k => $v) {
@@ -352,7 +352,7 @@ function flatten(array $arr): array
     return $flat;
 }
 
-function append(mixed $value, mixed $key = null): callable
+function append(mixed $value, mixed $key = null): \Closure
 {
     return static function (array $it) use ($value, $key): array {
         if ($key) {
@@ -392,7 +392,7 @@ function iterate(mixed $init, callable $mapper): \Generator
  *
  * This is roughly equivalent to an SQL LIMIT clause, but for iterables.
  */
-function atake(int $count): callable
+function atake(int $count): \Closure
 {
     return static function (iterable $a) use ($count): array {
         if (is_array($a)) {
@@ -414,7 +414,7 @@ function atake(int $count): callable
  *
  * This is roughly equivalent to an SQL LIMIT clause, but for iterables.
  */
-function ittake(int $count): callable
+function ittake(int $count): \Closure
 {
     return static function (array|\Iterator $a) use ($count): iterable {
         // No idea if this is faster than manually foreach()ing, but it's slicker.
@@ -471,7 +471,7 @@ function tail(array $a): array
  *   The callable to apply to all items other than the first.
  * @return callable
  */
-function headtail(mixed $init, callable $first, callable $rest): callable
+function headtail(mixed $init, callable $first, callable $rest): \Closure
 {
     // \IteratorAggregate is impossible in practice, so `iterable` is too wide.
     return static function (array|\Iterator $it) use ($init, $first, $rest): mixed {
