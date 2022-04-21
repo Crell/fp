@@ -4,7 +4,7 @@
 [![Software License][ico-license]](LICENSE.md)
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This library contains functional utilities intended for use with PHP 8.0 and later.  Its primary tool is the `pipe()` function, which takes a starting argument and then a series of callables to "pipe" that argument through.  Most other functions are utilities that produce a closure that takes the return from a previous `pipe()` step as its only argument.
+This library contains functional utilities intended for use with PHP 8.1 and later.  Its primary tool is the `pipe()` function, which takes a starting argument and then a series of callables to "pipe" that argument through.  Most other functions are utilities that produce a closure that takes the return from a previous `pipe()` step as its only argument.
 
 That provides a reasonably good experience for building multi-step functional pipelines and composition, at least until PHP itself gets a proper pipe operator. :-)
 

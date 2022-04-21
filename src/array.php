@@ -148,12 +148,11 @@ function itfilterWithKeys(?callable $c = null): \Closure
 }
 
 /**
- * @todo for PHP 8.1, this can change to leverage FCC instead of returning a function.
+ * This is most often used as collect(...) in a pipe.
  */
-function collect(): \Closure
+function collect(iterable $a): array
 {
-    return static fn(iterable $a): array
-        => is_array($a) ? $a : iterator_to_array($a);
+    return is_array($a) ? $a : iterator_to_array($a);
 }
 
 function reduce(mixed $init, callable $c): \Closure
@@ -216,11 +215,11 @@ function indexBy(callable $keyMaker): \Closure
 }
 
 /**
- * @todo It might make more sense to use our map instead of the native one. Not sure.
+ * Maps an incoming array using a separate mapper for the value and key.
  */
 function keyedMap(callable $values, ?callable $keys = null): \Closure
 {
-    $keys ??= function (): int {
+    $keys ??= static function (): int {
         static $counter = 0;
         return $counter++;
     };

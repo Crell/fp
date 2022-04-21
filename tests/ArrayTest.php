@@ -13,7 +13,7 @@ class ArrayTest extends TestCase
      */
     public function collect_array(): void
     {
-        $result = collect()([1, 2, 3]);
+        $result = collect([1, 2, 3]);
 
         self::assertEquals([1, 2, 3], $result);
     }
@@ -29,7 +29,7 @@ class ArrayTest extends TestCase
             yield 3;
         };
 
-        $result = collect()($it());
+        $result = collect($it());
 
         self::assertEquals([1, 2, 3], $result);
     }
