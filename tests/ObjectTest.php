@@ -28,7 +28,15 @@ class ObjectTest extends TestCase
      */
     public function prop_read_missing(): void
     {
-        $this->expectWarning();
+        set_error_handler(
+            static function ( $errno, $errstr ) {
+                restore_error_handler();
+                throw new \Exception( $errstr, $errno );
+            },
+            E_WARNING
+        );
+
+        $this->expectException(\Exception::class);
 
         $o = new class {
             public int $x = 1;
