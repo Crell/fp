@@ -4,31 +4,26 @@ declare(strict_types=1);
 
 namespace Crell\fp;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ArrayMapTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function itmap(): void
     {
         $result = itmap(fn(int $x): int => $x * 2)([5, 6]);
         self::assertEquals([10, 12], iterator_to_array($result));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function itmap_keys(): void
     {
         $result = itmapWithKeys(fn(int $x, int $k): int => $x * 2 + $k)([5, 6]);
         self::assertEquals([10, 13], iterator_to_array($result));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function itmap_iterator(): void
     {
         $gen = function () {
@@ -39,9 +34,7 @@ class ArrayMapTest extends TestCase
         self::assertEquals([10, 12], iterator_to_array($result));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function itmap_iterator_keys(): void
     {
         $gen = function () {
@@ -52,27 +45,21 @@ class ArrayMapTest extends TestCase
         self::assertEquals([10, 13], iterator_to_array($result));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function amap(): void
     {
         $result = amap(fn(int $x): int => $x * 2)([5, 6]);
         self::assertEquals([10, 12], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function amap_keys(): void
     {
         $result = amapWithKeys(fn(int $x, int $k): int => $x * 2 + $k)([5, 6]);
         self::assertEquals([10, 13], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function amap_iterator(): void
     {
         $gen = function () {
@@ -83,9 +70,7 @@ class ArrayMapTest extends TestCase
         self::assertEquals([10, 12], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function amap_iterator_keys(): void
     {
         $gen = function () {
@@ -96,9 +81,7 @@ class ArrayMapTest extends TestCase
         self::assertEquals([10, 13], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function amapPreserveKeys(): void
     {
         $a = ['a' => 'A', 'b' => 'B', 'c' => 'C'];
@@ -108,9 +91,7 @@ class ArrayMapTest extends TestCase
         self::assertEquals(['a' => 'Ahi', 'b' => 'Bhi', 'c' => 'Chi'], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function amapWithKeysPreserveKeys(): void
     {
         $a = ['a' => 'A', 'b' => 'B', 'c' => 'C'];

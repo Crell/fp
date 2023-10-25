@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Crell\fp;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ObjectTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function prop_read(): void
     {
         $o = new class {
@@ -23,9 +23,7 @@ class ObjectTest extends TestCase
         self::assertEquals(1, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function prop_read_missing(): void
     {
         set_error_handler(
@@ -46,9 +44,7 @@ class ObjectTest extends TestCase
         prop('missing')($o);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function method_no_args(): void
     {
         $o = new class {
@@ -60,9 +56,7 @@ class ObjectTest extends TestCase
         self::assertEquals(1, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function method_with_args(): void
     {
         $o = new class {
@@ -75,13 +69,11 @@ class ObjectTest extends TestCase
     }
 
     /**
-     * @test
-     * @dataProvider typeIsExamples()
-     *
      * @param string $type
      * @param mixed $val
      * @param bool $match
      */
+    #[Test, DataProvider('typeIsExamples')]
     public function typeIs(string $type, mixed $val, bool $match): void
     {
         self::assertEquals($match, typeIs($type)($val));

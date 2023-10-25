@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Crell\fp;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class EvolvableTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function constructor_props_evolvablee(): void
     {
         $c = new Constructor(1, 2, 3);
@@ -22,9 +21,7 @@ class EvolvableTest extends TestCase
         self::assertEquals($expected, $c2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function defined_props_evolvable(): void
     {
         $c = new Props(1, 2, 3);
@@ -36,9 +33,7 @@ class EvolvableTest extends TestCase
         self::assertEquals($expected, $c2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function undefined_props_evolvable(): void
     {
         $c = new Uninitialized();
@@ -49,9 +44,7 @@ class EvolvableTest extends TestCase
         self::assertEquals(1, $c2->notSet);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function undefined_props_evolvable_unchanged(): void
     {
         $c = new Uninitialized();

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Crell\fp;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class NewableTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function no_constructor(): void
     {
         $c = NoConstructor::new();
@@ -18,9 +17,7 @@ class NewableTest extends TestCase
         self::assertInstanceOf(NoConstructor::class, $c);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructor_with_positional_args(): void
     {
         $c = HasConstructor::new(1, 'hello');
@@ -30,9 +27,7 @@ class NewableTest extends TestCase
         self::assertEquals('hello', $c->name);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructor_with_named_args(): void
     {
         $c = HasConstructor::new(name: 'hello', x: 1);
@@ -42,9 +37,7 @@ class NewableTest extends TestCase
         self::assertEquals('hello', $c->name);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructor_with_variadic_args(): void
     {
         $c = HasConstructor::new(...[1, 'hello']);
@@ -54,9 +47,7 @@ class NewableTest extends TestCase
         self::assertEquals('hello', $c->name);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructor_with_variadic_named_args(): void
     {
         $c = HasConstructor::new(...['name' => 'hello', 'x' => 1]);
