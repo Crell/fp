@@ -6,3 +6,9 @@ parameters:
     ignoreErrors:
         # PHPStan whines about every match without a default, even if logically it's still complete.
         - '#Match expression does not handle remaining value#'
+        -
+            message: '#type has no value type specified in iterable type array#'
+            path: tests/
+        -
+            message: '#type has no value type specified in iterable type iterable#'
+            path: tests/

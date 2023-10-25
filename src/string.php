@@ -9,7 +9,6 @@ namespace Crell\fp;
  *
  * @param array<mixed>|string $find
  * @param array<mixed>|string $replace
- * @return callable
  */
 function replace(array|string $find, array|string $replace): \Closure
 {
@@ -23,7 +22,6 @@ function implode(string $glue): \Closure
 
 /**
  * @param non-empty-string $delimiter
- * @return callable
  */
 function explode(string $delimiter): \Closure
 {
