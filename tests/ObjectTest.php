@@ -76,7 +76,7 @@ class ObjectTest extends TestCase
 
     /**
      * @test
-     * @dataProvider typeIsExamples();
+     * @dataProvider typeIsExamples()
      *
      * @param string $type
      * @param mixed $val
@@ -90,7 +90,7 @@ class ObjectTest extends TestCase
     /**
      * @return iterable<array{string, mixed, bool}>
      */
-    public function typeIsExamples(): iterable
+    public static function typeIsExamples(): iterable
     {
         // Things that are.
         yield ['int', 1, true];

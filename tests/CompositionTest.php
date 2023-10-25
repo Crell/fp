@@ -99,7 +99,7 @@ class CompositionTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function maybeExamples(): iterable
+    public static function maybeExamples(): iterable
     {
         yield [1, 2];
         yield [null, null];

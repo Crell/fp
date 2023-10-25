@@ -21,7 +21,7 @@ class StringTest extends TestCase
     /**
      * @return iterable<array>
      */
-    public function replaceProvider(): iterable
+    public static function replaceProvider(): iterable
     {
         yield [
             'find' => '',
@@ -60,7 +60,7 @@ class StringTest extends TestCase
     /**
      * @return iterable<array>
      */
-    public function implodeProvider(): iterable
+    public static function implodeProvider(): iterable
     {
         yield [
             'glue' => '',
@@ -90,7 +90,7 @@ class StringTest extends TestCase
     /**
      * @return iterable<array>
      */
-    public function explodeProvider(): iterable
+    public static function explodeProvider(): iterable
     {
         yield [
             'delimiter' => '-',
