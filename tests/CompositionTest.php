@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Crell\fp;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CompositionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function basic(): void
     {
         $c = compose(
@@ -21,9 +21,7 @@ class CompositionTest extends TestCase
         self::assertEquals(10, $c('hello'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function nested(): void
     {
         $c = compose(
@@ -39,9 +37,7 @@ class CompositionTest extends TestCase
         self::assertEquals(30, $c('hello'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function pipe(): void
     {
         $result = pipe(
@@ -54,9 +50,7 @@ class CompositionTest extends TestCase
         self::assertEquals(30, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function pipe_splat(): void
     {
         $result = pipe(
@@ -71,9 +65,7 @@ class CompositionTest extends TestCase
         self::assertEquals(30, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function pipe_array(): void
     {
         $result = pipe(
@@ -86,10 +78,7 @@ class CompositionTest extends TestCase
         self::assertEquals(18, $result);
     }
 
-    /**
-     * @test
-     * @dataProvider maybeExamples()
-     */
+    #[Test, DataProvider('maybeExamples')]
     public function maybe(?int $val, ?int $expected): void
     {
         $fn = static fn (int $x) => $x + 1;
@@ -99,7 +88,7 @@ class CompositionTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function maybeExamples(): iterable
+    public static function maybeExamples(): iterable
     {
         yield [1, 2];
         yield [null, null];

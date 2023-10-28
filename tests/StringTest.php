@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Crell\fp;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class StringTest extends TestCase
 {
     /**
-     * @test
-     * @dataProvider replaceProvider
+     * @param string|array<string> $find
+     * @param string|array<string> $replace
      */
-    // @phpstan-ignore-next-line
+    #[Test, DataProvider('replaceProvider')]
     public function replace(string|array $find, string|array $replace, string $in, string $expected): void
     {
         self::assertEquals($expected, replace($find, $replace)($in));
@@ -21,7 +23,7 @@ class StringTest extends TestCase
     /**
      * @return iterable<array>
      */
-    public function replaceProvider(): iterable
+    public static function replaceProvider(): iterable
     {
         yield [
             'find' => '',
@@ -44,14 +46,11 @@ class StringTest extends TestCase
     }
 
     /**
-     * @test
-     * @dataProvider implodeProvider
-     *
      * @param string $glue
-     * @param array $in
+     * @param array<string> $in
      * @param string $expected
      */
-    // @phpstan-ignore-next-line
+    #[Test, DataProvider('implodeProvider')]
     public function implode(string $glue, array $in, string $expected): void
     {
         self::assertEquals($expected, implode($glue)($in));
@@ -60,7 +59,7 @@ class StringTest extends TestCase
     /**
      * @return iterable<array>
      */
-    public function implodeProvider(): iterable
+    public static function implodeProvider(): iterable
     {
         yield [
             'glue' => '',
@@ -82,6 +81,7 @@ class StringTest extends TestCase
      * @param string $in
      * @param array<mixed> $expected
      */
+    #[Test, DataProvider('explodeProvider')]
     public function explode(string $delimiter, string $in, array $expected): void
     {
         self::assertEquals($expected, explode($delimiter)($in));
@@ -90,7 +90,7 @@ class StringTest extends TestCase
     /**
      * @return iterable<array>
      */
-    public function explodeProvider(): iterable
+    public static function explodeProvider(): iterable
     {
         yield [
             'delimiter' => '-',

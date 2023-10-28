@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Crell\fp;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ArrayTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function collect_array(): void
     {
         $result = collect([1, 2, 3]);
@@ -18,9 +17,7 @@ class ArrayTest extends TestCase
         self::assertEquals([1, 2, 3], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function collect_iterator(): void
     {
         $it = static function () {
@@ -34,9 +31,7 @@ class ArrayTest extends TestCase
         self::assertEquals([1, 2, 3], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function reduce(): void
     {
         $result = reduce(0, fn(int $collect, int $x) => $x + $collect)([1, 2, 3, 4, 5]);
@@ -44,9 +39,7 @@ class ArrayTest extends TestCase
         self::assertEquals(15, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function reduce_keys(): void
     {
         $result = reduceWithKeys(0, fn(int $collect, int $x, int $k) => $x + $collect + $k)([1, 2, 3, 4, 5]);
@@ -54,9 +47,7 @@ class ArrayTest extends TestCase
         self::assertEquals(25, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function reduce_iterable(): void
     {
         $gen = function() {
@@ -67,9 +58,7 @@ class ArrayTest extends TestCase
         self::assertEquals(15, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function reduce_iterable_keys(): void
     {
         $gen = function() {
@@ -80,9 +69,7 @@ class ArrayTest extends TestCase
         self::assertEquals(25, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function indexBy(): void
     {
         $in = [
@@ -100,18 +87,14 @@ class ArrayTest extends TestCase
         ], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keyedMap(): void
     {
         $result = keyedMap(static fn($k, $v) => $k + $v)([1 => 1, 2=> 2, 3 => 3]);
         self::assertEquals([0 => 2, 1 => 4, 2 => 6], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keyedMapWithKeyCallback(): void
     {
         $values = static fn($k, $v) => $k * $v;
@@ -121,9 +104,7 @@ class ArrayTest extends TestCase
         self::assertEquals([2 => 1, 4 => 4, 6 => 9], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function first(): void
     {
         $list = [1, 2, 3, 4, 5];
@@ -133,9 +114,7 @@ class ArrayTest extends TestCase
         self::assertEquals(2, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstValue(): void
     {
         $list = [
@@ -160,9 +139,7 @@ class ArrayTest extends TestCase
         self::assertEquals(2, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstWithNoMatch(): void
     {
         $list = [1, 3, 5, 7, 9];
@@ -172,9 +149,7 @@ class ArrayTest extends TestCase
         self::assertNull($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstWithKeys(): void
     {
         $list = [1, 2, 3, 4, 5];
@@ -184,9 +159,7 @@ class ArrayTest extends TestCase
         self::assertEquals(2, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstValueWithKeys(): void
     {
         $list = [
@@ -212,9 +185,7 @@ class ArrayTest extends TestCase
         self::assertEquals(4, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function firstWithKeysWithNoMatch(): void
     {
         $list = [1, 3, 5, 7, 9];
@@ -224,9 +195,7 @@ class ArrayTest extends TestCase
         self::assertNull($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function anyMatch(): void
     {
         $list = [1, 2, 3, 5, 7, 9];
@@ -236,9 +205,7 @@ class ArrayTest extends TestCase
         self::assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function anyNoMatch(): void
     {
         $list = [1, 3, 5, 7, 9];
@@ -248,9 +215,7 @@ class ArrayTest extends TestCase
         self::assertFalse($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function anyWithKeysMatch(): void
     {
         $list = [1, 2, 3, 5, 7, 9];
@@ -260,9 +225,7 @@ class ArrayTest extends TestCase
         self::assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function anyWithKeysNoMatch(): void
     {
         $list = [1, 3, 5, 7, 9];
@@ -272,9 +235,7 @@ class ArrayTest extends TestCase
         self::assertFalse($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function allMatch(): void
     {
         $list = [2, 4, 6];
@@ -284,9 +245,7 @@ class ArrayTest extends TestCase
         self::assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function allNoMatch(): void
     {
         $list = [2, 3, 4];
@@ -296,9 +255,7 @@ class ArrayTest extends TestCase
         self::assertFalse($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function allWithKeysMatch(): void
     {
         $list = [2, 4, 6];
@@ -308,9 +265,7 @@ class ArrayTest extends TestCase
         self::assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function allWithKeysNoMatch(): void
     {
         $list = [2, 3, 4];
@@ -320,9 +275,7 @@ class ArrayTest extends TestCase
         self::assertFalse($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function flatten(): void
     {
         $a = [1, 2, [3, 4], [5, [6, 7]]];
@@ -331,9 +284,7 @@ class ArrayTest extends TestCase
         self::assertEquals([1, 2, 3, 4, 5, 6, 7], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function append(): void
     {
         $a = [1, 2, 3, 4];
@@ -342,9 +293,7 @@ class ArrayTest extends TestCase
         self::assertEquals([1, 2, 3, 4, 5], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function append_keys(): void
     {
         $a = ['a' => 'A', 'b' => 'B'];
@@ -353,9 +302,7 @@ class ArrayTest extends TestCase
         self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iterate(): void
     {
         $a = 0;
@@ -375,9 +322,7 @@ class ArrayTest extends TestCase
         self::assertEquals(range(0, 9), $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function atake(): void
     {
         $a = array_combine(range('a', 'z'), range('A', 'Z'));
@@ -387,9 +332,7 @@ class ArrayTest extends TestCase
         self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function atake_iterator(): void
     {
         $l = array_combine(range('a', 'z'), range('A', 'Z'));
@@ -400,9 +343,7 @@ class ArrayTest extends TestCase
         self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function atake_insufficient(): void
     {
         $a = array_combine(range('a', 'b'), range('A', 'B'));
@@ -412,9 +353,7 @@ class ArrayTest extends TestCase
         self::assertEquals(['a' => 'A', 'b' => 'B'], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function atake_iterator_insufficient(): void
     {
         $l = array_combine(range('a', 'b'), range('A', 'B'));
@@ -425,9 +364,7 @@ class ArrayTest extends TestCase
         self::assertEquals(['a' => 'A', 'b' => 'B'], $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ittake(): void
     {
         $a = array_combine(range('a', 'z'), range('A', 'Z'));
@@ -437,9 +374,7 @@ class ArrayTest extends TestCase
         self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], iterator_to_array($result));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ittake_iterator(): void
     {
         $l = array_combine(range('a', 'z'), range('A', 'Z'));
@@ -450,9 +385,7 @@ class ArrayTest extends TestCase
         self::assertEquals(['a' => 'A', 'b' => 'B', 'c' => 'C'], iterator_to_array($result));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ittake_insufficient(): void
     {
         $a = array_combine(range('a', 'b'), range('A', 'B'));
@@ -462,9 +395,7 @@ class ArrayTest extends TestCase
         self::assertEquals(['a' => 'A', 'b' => 'B'], iterator_to_array($result));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function nth(): void
     {
         $a = 0;
@@ -476,9 +407,7 @@ class ArrayTest extends TestCase
         self::assertEquals(1, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function head(): void
     {
         $a = [1, 2, 3];
@@ -486,9 +415,7 @@ class ArrayTest extends TestCase
         self::assertEquals(1, head($a));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function head_empty(): void
     {
         $a = [];
@@ -496,9 +423,7 @@ class ArrayTest extends TestCase
         self::assertNull(head($a));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tail(): void
     {
         $a = [1, 2, 3];
@@ -506,9 +431,7 @@ class ArrayTest extends TestCase
         self::assertEquals([2, 3], tail($a));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tail_empty(): void
     {
         $a = [];
@@ -516,9 +439,7 @@ class ArrayTest extends TestCase
         self::assertEquals([], tail($a));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function headtail(): void
     {
         $a = [1, 2, 3];
@@ -531,9 +452,7 @@ class ArrayTest extends TestCase
         self::assertEquals(9, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function headtail_empty(): void
     {
         $a = [];
@@ -546,9 +465,7 @@ class ArrayTest extends TestCase
         self::assertEquals(5, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function headtail_iterable(): void
     {
         $a = (function() {
@@ -563,9 +480,7 @@ class ArrayTest extends TestCase
         self::assertEquals(9, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function headtail_empty_iterable(): void
     {
         $a = new \ArrayIterator([]);

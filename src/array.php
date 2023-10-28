@@ -149,6 +149,9 @@ function itfilterWithKeys(?callable $c = null): \Closure
 
 /**
  * This is most often used as collect(...) in a pipe.
+ *
+ * @param iterable<mixed, mixed> $a
+ * @return array<mixed, mixed>
  */
 function collect(iterable $a): array
 {
@@ -381,6 +384,9 @@ function append(mixed $value, mixed $key = null): \Closure
 function iterate(mixed $init, callable $mapper): \Generator
 {
     yield $init;
+    // PHPStan doesn't like that this is an infinite loop, but it's
+    // supposed to be an infinite loop.
+    // @phpstan-ignore-next-line
     while (true) {
         yield $init = $mapper($init);
     }
@@ -468,7 +474,6 @@ function tail(array $a): array
  *   The callable to apply to the first item only.
  * @param callable $rest
  *   The callable to apply to all items other than the first.
- * @return callable
  */
 function headtail(mixed $init, callable $first, callable $rest): \Closure
 {
