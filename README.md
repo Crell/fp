@@ -25,12 +25,12 @@ The most important function in this library is `pipe()`.  It takes an arbitrary 
 For a trivial example:
 
 ```php
-use Crell\fp\pipe;
+use function Crell\fp\pipe;
 
 $result = pipe(5,
-  static fn ($in) => $in ^ 4,     // Returns 625
+  static fn ($in) => $in ** 4,     // Returns 625
   static fn ($in) => $in / 4,     // Returns 156.25
-  static fn ($in) => (string)$in  // Coerces the number to a string
+  static fn ($in) => (string)$in,  // Coerces the number to a string
   strlen(...),                    // Returns the length of the string
 );
 // $result is now 6, because "156.25" has 6 characters in it.
@@ -45,7 +45,7 @@ As stated, `pipe()` works only with unary functions.  PHP has numerous functions
 For example, the `explode()` function (which is namespaced to not conflict with the global function), takes a single argument, the delimiter.  Its return value is a callable that will, when called with a string, call the built-in `\explode()` function with the provided string and the saved delimiter.
 
 ```php
-use Crell\fp\explode;
+use function Crell\fp\explode;
 
 $result = pipe("Hello world",
   explode(' '),  // Produces ['Hello', 'world']
