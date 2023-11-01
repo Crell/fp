@@ -23,7 +23,7 @@ jobs:
             - run: composer install --no-progress ${{ matrix.composer-flags }}
             - run: vendor/bin/phpunit ${{ matrix.phpunit-flags }}
     phpstan:
-        name: PHPStan tests on ${{ matrix.php }} ${{ matrix.composer-flags }}
+        name: PHPStan checks on ${{ matrix.php }} ${{ matrix.composer-flags }}
         runs-on: ubuntu-latest
         strategy:
             matrix:
