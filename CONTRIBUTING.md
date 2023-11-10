@@ -28,5 +28,8 @@ We accept contributions via Pull Requests on [Github](https://github.com/Crell/A
 $ composer test
 ```
 
+## AI Policy
+
+This project respects the copyright of all Open Source contributors.  The legality of using Open Source data to train Code-generation AIs (including but not limited to GitHub Copilot) or of using Code-generation AIs to produce Open Source code is still very murky and unclear.  For that reason, *AI-generated code is not welcome in this project and will be rejected on sight*.  By submitting a PR, you affirm that the code was written 100% by you, and that you have the legal permission to offer it under the licensing terms of this project.  Violation of this policy may result in your banning from the project.
 
 **Happy coding**!
