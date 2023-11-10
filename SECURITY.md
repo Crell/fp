@@ -14,7 +14,7 @@ Only the latest stable release of this library is supported.  In general, bug an
 
 # How to Submit a Report
 
-To submit a vulnerability report, please contact us through GitHub. Your submission will be reviewed as soon as feasible, but as this is a volunteer project we cannot guarantee a response time.
+To submit a vulnerability report, please contact us through [GitHub](https://github.com/Crell/fp/security). Your submission will be reviewed as soon as feasible, but as this is a volunteer project we cannot guarantee a response time.
 
 # Safe Harbor
 
