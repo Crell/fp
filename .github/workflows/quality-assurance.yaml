@@ -11,8 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php: [ '8.1', '8.2', '8.3', '8.4' ]
-                composer-flags: [ '' ]
+                php: [ '8.1', '8.2', '8.3', '8.4', '8.5' ]
                 phpunit-flags: [ '--coverage-text' ]
         steps:
             - uses: actions/checkout@v2
@@ -28,8 +27,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php: [ '8.1', '8.2', '8.3', '8.4' ]
-                composer-flags: [ '' ]
+                php: [ '8.1', '8.2', '8.3', '8.4', '8.5' ]
         steps:
             - uses: actions/checkout@v2
             - uses: shivammathur/setup-php@v2
@@ -37,5 +35,5 @@ jobs:
                   php-version: ${{ matrix.php }}
                   coverage: xdebug
                   tools: composer:v2
-            - run: composer install --no-progress ${{ matrix.composer-flags }}
+            - run: composer install --no-progress
             - run: vendor/bin/phpstan
